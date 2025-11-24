@@ -127,6 +127,16 @@ export interface Movie extends CosmicObject {
     languages?: string[];
     featured: boolean;
     trending: boolean;
+    content_type: {
+      key: string;
+      value: string;
+    };
+    translator?: string;
+    season_number?: number;
+    episode_number?: number;
+    episode_title?: string;
+    is_final_episode?: boolean;
+    series_slug?: string;
   };
 }
 

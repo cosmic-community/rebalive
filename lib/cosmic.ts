@@ -32,7 +32,7 @@ export async function getFeaturedMovies(): Promise<Movie[]> {
   }
 }
 
-// Fetch all movies
+// Fetch all movies and series
 export async function getMovies(): Promise<Movie[]> {
   try {
     const response = await cosmic.objects
@@ -46,6 +46,46 @@ export async function getMovies(): Promise<Movie[]> {
       return []
     }
     throw new Error('Failed to fetch movies')
+  }
+}
+
+// Fetch only movies (not series)
+export async function getMoviesOnly(): Promise<Movie[]> {
+  try {
+    const response = await cosmic.objects
+      .find({ 
+        type: 'movies',
+        'metadata.content_type.key': 'movie'
+      })
+      .props(['id', 'title', 'slug', 'metadata'])
+      .depth(1)
+    
+    return response.objects as Movie[]
+  } catch (error) {
+    if (hasStatus(error) && error.status === 404) {
+      return []
+    }
+    throw new Error('Failed to fetch movies only')
+  }
+}
+
+// Fetch only series
+export async function getSeriesOnly(): Promise<Movie[]> {
+  try {
+    const response = await cosmic.objects
+      .find({ 
+        type: 'movies',
+        'metadata.content_type.key': 'series'
+      })
+      .props(['id', 'title', 'slug', 'metadata'])
+      .depth(1)
+    
+    return response.objects as Movie[]
+  } catch (error) {
+    if (hasStatus(error) && error.status === 404) {
+      return []
+    }
+    throw new Error('Failed to fetch series only')
   }
 }
 

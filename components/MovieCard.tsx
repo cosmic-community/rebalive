@@ -11,6 +11,16 @@ export default function MovieCard({ movie }: MovieCardProps) {
   const year = movie.metadata.release_year
   const rating = movie.metadata.rating?.value
   const firstGenre = genres[0]
+  const contentType = movie.metadata.content_type?.value || 'Filme'
+  const translator = movie.metadata.translator
+  const seasonNumber = movie.metadata.season_number
+  const episodeNumber = movie.metadata.episode_number
+  const isFinalEpisode = movie.metadata.is_final_episode
+
+  // Format episode display (e.g., "S1 EP5" or "S1 EP5F" for final)
+  const episodeDisplay = seasonNumber && episodeNumber 
+    ? `S${seasonNumber} EP${episodeNumber}${isFinalEpisode ? 'F' : ''}`
+    : null
 
   return (
     <Link href={`/movies/${movie.slug}`} className="group">
@@ -41,17 +51,33 @@ export default function MovieCard({ movie }: MovieCardProps) {
               {rating}
             </div>
           )}
+          {/* Content Type Badge */}
+          <div className="absolute top-2 left-2 bg-primary-600 text-white px-2 py-1 rounded-md text-xs font-bold">
+            {contentType}
+          </div>
+          {/* Episode Badge for Series */}
+          {episodeDisplay && (
+            <div className="absolute bottom-2 right-2 bg-secondary-600 text-white px-2 py-1 rounded-md text-xs font-bold">
+              {episodeDisplay}
+            </div>
+          )}
         </div>
         <div className="p-3 flex-1 flex flex-col">
           <h3 className="font-bold text-sm mb-1 group-hover:text-primary-600 transition-colors line-clamp-2 flex-1">
             {movie.title}
           </h3>
-          <div className="flex items-center justify-between text-xs text-gray-600">
+          <div className="flex items-center justify-between text-xs text-gray-600 mb-1">
             {year && <span>{year}</span>}
             {firstGenre && (
               <span className="line-clamp-1">{firstGenre.title}</span>
             )}
           </div>
+          {/* Translator Name */}
+          {translator && (
+            <div className="text-xs text-primary-600 font-semibold">
+              {translator}
+            </div>
+          )}
         </div>
       </div>
     </Link>

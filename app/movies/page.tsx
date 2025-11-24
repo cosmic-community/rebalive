@@ -12,6 +12,7 @@ export default function MoviesPage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [sortBy, setSortBy] = useState<'latest' | 'popular' | 'title'>('latest')
+  const [contentFilter, setContentFilter] = useState<'all' | 'movie' | 'series'>('all')
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
@@ -40,6 +41,13 @@ export default function MoviesPage() {
   // Filter and search movies
   let filteredMovies = movies
 
+  // Apply content type filter
+  if (contentFilter !== 'all') {
+    filteredMovies = filteredMovies.filter((movie) => 
+      movie.metadata.content_type?.key === contentFilter
+    )
+  }
+
   // Apply category filter
   if (selectedCategory) {
     filteredMovies = filteredMovies.filter((movie) => 
@@ -51,7 +59,8 @@ export default function MoviesPage() {
   if (searchQuery) {
     filteredMovies = filteredMovies.filter((movie) =>
       movie.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      movie.metadata.synopsis.toLowerCase().includes(searchQuery.toLowerCase())
+      movie.metadata.synopsis.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (movie.metadata.translator && movie.metadata.translator.toLowerCase().includes(searchQuery.toLowerCase()))
     )
   }
 
@@ -77,7 +86,7 @@ export default function MoviesPage() {
       <div className="section-container">
         <div className="text-center py-12">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading movies...</p>
+          <p className="mt-4 text-gray-600">Loading content...</p>
         </div>
       </div>
     )
@@ -87,9 +96,11 @@ export default function MoviesPage() {
     <div>
       <div className="gradient-primary text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">All Movies</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            {contentFilter === 'movie' ? 'Filme' : contentFilter === 'series' ? 'Serie' : 'Filme na Serie'}
+          </h1>
           <p className="text-xl text-blue-100">
-            Browse our complete collection of {movies.length} movies
+            Browse our complete collection of {movies.length} items
           </p>
         </div>
       </div>
@@ -97,11 +108,49 @@ export default function MoviesPage() {
       <div className="section-container">
         {/* Search Bar */}
         <div className="mb-8">
-          <SearchBar value={searchQuery} onChange={setSearchQuery} />
+          <SearchBar value={searchQuery} onChange={setSearchQuery} placeholder="Search movies, series, or translators..." />
         </div>
 
         {/* Filters */}
         <div className="mb-8 space-y-6">
+          {/* Content Type Filter */}
+          <div>
+            <h2 className="text-lg font-semibold mb-4">Content Type</h2>
+            <div className="flex flex-wrap gap-3">
+              <button
+                onClick={() => setContentFilter('all')}
+                className={`px-4 py-2 rounded-full font-medium transition-colors ${
+                  contentFilter === 'all'
+                    ? 'bg-primary-600 text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                Zose (All)
+              </button>
+              <button
+                onClick={() => setContentFilter('movie')}
+                className={`px-4 py-2 rounded-full font-medium transition-colors ${
+                  contentFilter === 'movie'
+                    ? 'bg-primary-600 text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                Filme gusa (Movies Only)
+              </button>
+              <button
+                onClick={() => setContentFilter('series')}
+                className={`px-4 py-2 rounded-full font-medium transition-colors ${
+                  contentFilter === 'series'
+                    ? 'bg-primary-600 text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                Serie gusa (Series Only)
+              </button>
+            </div>
+          </div>
+
+          {/* Genre Filter */}
           <div>
             <h2 className="text-lg font-semibold mb-4">Filter by Genre</h2>
             <CategoryFilter
@@ -111,6 +160,7 @@ export default function MoviesPage() {
             />
           </div>
 
+          {/* Sort Options */}
           <div>
             <h2 className="text-lg font-semibold mb-4">Sort By</h2>
             <div className="flex flex-wrap gap-3">
@@ -122,7 +172,7 @@ export default function MoviesPage() {
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >
-                Latest
+                Filme zigezweho (Latest)
               </button>
               <button
                 onClick={() => setSortBy('popular')}
@@ -132,7 +182,7 @@ export default function MoviesPage() {
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >
-                Most Popular
+                Filme zikunzwe (Most Popular)
               </button>
               <button
                 onClick={() => setSortBy('title')}
@@ -151,7 +201,7 @@ export default function MoviesPage() {
         {/* Results Count */}
         <div className="mb-6">
           <p className="text-gray-600">
-            Showing {filteredMovies.length} {filteredMovies.length === 1 ? 'movie' : 'movies'}
+            Showing {filteredMovies.length} {filteredMovies.length === 1 ? 'item' : 'items'}
           </p>
         </div>
 
@@ -167,16 +217,24 @@ export default function MoviesPage() {
             <svg className="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
             </svg>
-            <p className="text-gray-600 text-lg">No movies found matching your criteria.</p>
+            <p className="text-gray-600 text-lg">No content found matching your criteria.</p>
             <button
               onClick={() => {
                 setSearchQuery('')
                 setSelectedCategory(null)
+                setContentFilter('all')
               }}
               className="mt-4 text-primary-600 hover:text-primary-700 font-semibold"
             >
               Clear Filters
             </button>
+          </div>
+        )}
+
+        {/* Load More Indicator */}
+        {filteredMovies.length > 20 && (
+          <div className="text-center mt-8">
+            <p className="text-gray-500 text-sm">izindi? komeza umanuke... (scroll for more)</p>
           </div>
         )}
       </div>
