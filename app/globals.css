@@ -23,11 +23,11 @@
   }
   
   .card-hover {
-    @apply transition-transform duration-300 hover:scale-105 hover:shadow-xl;
+    @apply transition-all duration-300 hover:scale-105 hover:shadow-2xl;
   }
   
   .gradient-primary {
-    @apply bg-gradient-to-r from-primary-500 to-primary-700;
+    @apply bg-gradient-to-r from-primary-600 to-primary-800;
   }
   
   .gradient-secondary {
@@ -38,5 +38,26 @@
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+  
+  .line-clamp-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 }

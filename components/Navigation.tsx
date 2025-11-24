@@ -7,54 +7,55 @@ export default function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   return (
-    <nav className="bg-white shadow-md sticky top-0 z-50">
+    <nav className="bg-gray-900 text-white shadow-md sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <span className="text-2xl font-bold gradient-primary bg-clip-text text-transparent">
-              Rebalive
-            </span>
+            <svg className="w-8 h-8 text-primary-500" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z" />
+            </svg>
+            <span className="text-2xl font-bold">Rebalive</span>
           </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
             <Link
+              href="/"
+              className="text-gray-300 hover:text-white font-medium transition-colors"
+            >
+              Home
+            </Link>
+            <Link
               href="/movies"
-              className="text-gray-700 hover:text-primary-600 font-medium transition-colors"
+              className="text-gray-300 hover:text-white font-medium transition-colors"
             >
               Movies
             </Link>
             <Link
               href="/news"
-              className="text-gray-700 hover:text-primary-600 font-medium transition-colors"
+              className="text-gray-300 hover:text-white font-medium transition-colors"
             >
               News
             </Link>
             <Link
               href="/music"
-              className="text-gray-700 hover:text-primary-600 font-medium transition-colors"
+              className="text-gray-300 hover:text-white font-medium transition-colors"
             >
               Music
             </Link>
             <Link
               href="/live-tv"
-              className="text-gray-700 hover:text-primary-600 font-medium transition-colors"
+              className="text-gray-300 hover:text-white font-medium transition-colors"
             >
               Live TV
-            </Link>
-            <Link
-              href="/artists"
-              className="text-gray-700 hover:text-primary-600 font-medium transition-colors"
-            >
-              Artists
             </Link>
           </div>
 
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+            className="md:hidden p-2 rounded-lg hover:bg-gray-800 transition-colors"
             aria-label="Toggle menu"
           >
             <svg
@@ -84,42 +85,42 @@ export default function Navigation() {
 
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
-          <div className="md:hidden py-4 border-t border-gray-200">
+          <div className="md:hidden py-4 border-t border-gray-800">
             <div className="flex flex-col gap-4">
               <Link
+                href="/"
+                className="text-gray-300 hover:text-white font-medium transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Home
+              </Link>
+              <Link
                 href="/movies"
-                className="text-gray-700 hover:text-primary-600 font-medium transition-colors"
+                className="text-gray-300 hover:text-white font-medium transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Movies
               </Link>
               <Link
                 href="/news"
-                className="text-gray-700 hover:text-primary-600 font-medium transition-colors"
+                className="text-gray-300 hover:text-white font-medium transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 News
               </Link>
               <Link
                 href="/music"
-                className="text-gray-700 hover:text-primary-600 font-medium transition-colors"
+                className="text-gray-300 hover:text-white font-medium transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Music
               </Link>
               <Link
                 href="/live-tv"
-                className="text-gray-700 hover:text-primary-600 font-medium transition-colors"
+                className="text-gray-300 hover:text-white font-medium transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Live TV
-              </Link>
-              <Link
-                href="/artists"
-                className="text-gray-700 hover:text-primary-600 font-medium transition-colors"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Artists
               </Link>
             </div>
           </div>
