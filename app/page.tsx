@@ -12,11 +12,14 @@ export default async function HomePage() {
   // Get trending movies (movies marked as trending)
   const trendingMovies = allMovies.filter(movie => movie.metadata.trending)
 
+  // Get first featured movie with validation
+  const firstFeaturedMovie = featuredMovies[0]
+
   return (
     <div>
       {/* Hero Section with Featured Movie */}
-      {featuredMovies && featuredMovies.length > 0 && (
-        <FeaturedMovieHero movie={featuredMovies[0]} />
+      {firstFeaturedMovie && (
+        <FeaturedMovieHero movie={firstFeaturedMovie} />
       )}
 
       {/* Trending Now */}

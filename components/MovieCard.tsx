@@ -10,6 +10,7 @@ export default function MovieCard({ movie }: MovieCardProps) {
   const genres = movie.metadata.genres || []
   const year = movie.metadata.release_year
   const rating = movie.metadata.rating?.value
+  const firstGenre = genres[0]
 
   return (
     <Link href={`/movies/${movie.slug}`} className="group">
@@ -47,8 +48,8 @@ export default function MovieCard({ movie }: MovieCardProps) {
           </h3>
           <div className="flex items-center justify-between text-xs text-gray-600">
             {year && <span>{year}</span>}
-            {genres.length > 0 && (
-              <span className="line-clamp-1">{genres[0].title}</span>
+            {firstGenre && (
+              <span className="line-clamp-1">{firstGenre.title}</span>
             )}
           </div>
         </div>
